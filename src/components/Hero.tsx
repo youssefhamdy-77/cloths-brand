@@ -18,6 +18,7 @@ const Particles = () => {
     setParticles(arr);
   }, []);
 
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {particles.map((p) => (
@@ -73,17 +74,17 @@ export default function Hero() {
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#030306]">
       {/* Background Gradients & Navy Panel Feel */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#070718] via-[#030306] to-[#030306] opacity-90 z-0"></div>
-      
+
       {/* Soft central glow behind headline */}
-      <motion.div 
+      <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-gradient-to-tr from-[#26128A] to-[#5B3CFF] blur-[120px] opacity-20 z-0"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 0.2, scale: 1 }}
         transition={{ duration: 2, delay: 0.2 }}
       />
-      
+
       {/* Thin futuristic grid/line details */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 z-0 opacity-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
@@ -94,16 +95,16 @@ export default function Hero() {
           backgroundPosition: 'center center'
         }}
       />
-      
+
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[rgba(255,255,255,0.1)] to-transparent z-0"></div>
 
       {/* Curved glowing horizon shape near bottom */}
-      <motion.div 
+      <motion.div
         className="absolute -bottom-[20vh] left-1/2 -translate-x-1/2 w-[150vw] h-[40vh] rounded-[100%] bg-gradient-to-t from-[#5B3CFF] to-transparent blur-[60px] opacity-30 z-0"
         animate={{ opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div 
+      <motion.div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#8B7CFF] to-transparent shadow-[0_0_20px_#6D4CFF] z-0"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -124,8 +125,8 @@ export default function Hero() {
             <span className="text-[#A5A7C8] uppercase tracking-widest text-[10px] font-medium">New Summer Vibes Collection</span>
           </div>
         </motion.div>
-        
-        <motion.h1 
+
+        <motion.h1
           className="text-5xl md:text-7xl lg:text-[5rem] font-light tracking-tight text-[#F5F7FF] leading-[1.1] mb-8"
         >
           <motion.span variants={itemVariants} className="block">Luxury Essentials for</motion.span>
@@ -133,11 +134,11 @@ export default function Hero() {
             Midnight Summers
           </motion.span>
         </motion.h1>
-        
+
         <motion.p variants={itemVariants} className="text-[#A5A7C8] max-w-2xl mb-12 text-sm md:text-base lg:text-lg font-light leading-relaxed">
           A futuristic clothing collection designed for warm nights, city lights, and effortless movement.
         </motion.p>
-        
+
         <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
           <button className="px-8 py-3.5 rounded-full bg-[#F5F7FF] text-[#030306] text-sm font-medium hover:bg-[#A5A7C8] transition-colors w-full sm:w-auto">
             Shop Collection
