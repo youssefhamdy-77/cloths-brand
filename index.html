@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amber | Premium Fashion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #030306;
+      color: #F5F7FF;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+    }
+    
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 20px rgba(109, 76, 255, 0.5);
+    }
+    
+    /* Scroll Reveal Classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    .reveal-scale-x {
+      opacity: 0;
+      transform: scaleX(0);
+      transition: all 1.5s ease-in-out;
+      transform-origin: center;
+    }
+    .reveal-scale-x.active {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    /* Animations */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.2; transform: scale(1) translateX(-50%); }
+      50% { opacity: 0.4; transform: scale(1.1) translateX(-45%); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 6s ease-in-out infinite;
+    }
+
+    @keyframes rotateGlow {
+      0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.25; transform: translate(-50%, -50%) scale(1.1); }
+    }
+    .animate-rotate-glow {
+      animation: rotateGlow 10s ease-in-out infinite;
+    }
+
+    /* Navbar load animation */
+    @keyframes navDrop {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .nav-animate {
+      animation: navDrop 0.8s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#5B3CFF] selection:text-white">
+
+  <!-- Navbar -->
+  <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 nav-animate">
+    <nav class="flex items-center justify-between px-8 py-4 rounded-full w-full max-w-5xl transition-all duration-500" style="background: rgba(15, 15, 45, 0.55); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 0 40px rgba(91, 60, 255, 0.18);">
+      <div class="flex-shrink-0">
+        <a href="#hero" class="text-xl font-medium tracking-[0.15em] text-[#F5F7FF] glow-text cursor-pointer uppercase no-underline">Amber</a>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#catalog" class="text-sm font-light text-[#A5A7C8] hover:text-[#F5F7FF] cursor-pointer transition-colors no-underline">Summer</a>
+        <a href="#hoodies" class="text-sm font-light text-[#A5A7C8] hover:text-[#F5F7FF] cursor-pointer transition-colors no-underline">Hoodies</a>
+        <a href="#jackets" class="text-sm font-light text-[#A5A7C8] hover:text-[#F5F7FF] cursor-pointer transition-colors no-underline">Jackets</a>
+        <a href="#jeans" class="text-sm font-light text-[#A5A7C8] hover:text-[#F5F7FF] cursor-pointer transition-colors no-underline">Jeans</a>
+        <a href="#story" class="text-sm font-light text-[#A5A7C8] hover:text-[#F5F7FF] cursor-pointer transition-colors no-underline">Story</a>
+      </div>
+      <div class="flex-shrink-0 flex items-center gap-4">
+        <a href="#catalog" class="px-6 py-2 rounded-full bg-[#F5F7FF] text-[#030306] text-sm font-medium hover:bg-[#A5A7C8] transition-colors no-underline inline-block">Shop Now</a>
+        <button onclick="toggleCart()" class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)] backdrop-blur-md flex items-center justify-center text-[#F5F7FF] hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] transition-all outline-none" aria-label="Cart">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#030306]">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#070718] via-[#030306] to-[#030306] opacity-90 z-0"></div>
+    
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-gradient-to-tr from-[#26128A] to-[#5B3CFF] blur-[120px] opacity-20 z-0"></div>
+    
+    <div class="absolute inset-0 z-0 opacity-15" style="background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 100px 100px; background-position: center center;"></div>
+    
+    <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[rgba(255,255,255,0.1)] to-transparent z-0"></div>
+
+    <div class="absolute -bottom-[20vh] left-1/2 -translate-x-1/2 w-[150vw] h-[40vh] rounded-[100%] bg-gradient-to-t from-[#5B3CFF] to-transparent blur-[60px] opacity-30 z-0 animate-pulse-glow"></div>
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#8B7CFF] to-transparent shadow-[0_0_20px_#6D4CFF] z-0"></div>
+
+    <div id="particles" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+    <div class="relative z-10 text-center flex flex-col items-center px-6 max-w-4xl">
+      <div class="mb-8 reveal">
+        <div class="px-4 py-1.5 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)] backdrop-blur-md flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#8B7CFF] shadow-[0_0_8px_#8B7CFF]"></span>
+          <span class="text-[#A5A7C8] uppercase tracking-widest text-[10px] font-medium">New Summer Vibes Collection</span>
+        </div>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl lg:text-[5rem] font-light tracking-tight text-[#F5F7FF] leading-[1.1] mb-8">
+        <span class="block reveal reveal-delay-1">Luxury Essentials for</span>
+        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#F5F7FF] via-[#8B7CFF] to-[#6D4CFF] glow-text pb-2 reveal reveal-delay-2">Midnight Summers</span>
+      </h1>
+      
+      <p class="text-[#A5A7C8] max-w-2xl mb-12 text-sm md:text-base lg:text-lg font-light leading-relaxed reveal reveal-delay-3">
+        A futuristic clothing collection designed for warm nights, city lights, and effortless movement.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row items-center gap-6 reveal reveal-delay-4">
+        <a href="#catalog" class="px-8 py-3.5 rounded-full bg-[#F5F7FF] text-[#030306] text-sm font-medium hover:bg-[#A5A7C8] transition-colors w-full sm:w-auto no-underline">Shop Collection</a>
+        <a href="#story" class="px-8 py-3.5 rounded-full border border-[rgba(255,255,255,0.12)] text-[#F5F7FF] bg-[rgba(255,255,255,0.03)] backdrop-blur-md text-sm font-medium hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] transition-all w-full sm:w-auto no-underline">View Lookbook</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Catalog Bento Grid -->
+  <section id="catalog" class="py-32 px-6 md:px-12 lg:px-24 bg-[#030306] relative z-20 overflow-hidden">
+    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[rgba(91,60,255,0.05)] via-transparent to-transparent pointer-events-none rounded-full blur-3xl z-0"></div>
+    
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="mb-16 text-center md:text-left flex flex-col items-center md:items-start reveal">
+        <h2 class="text-4xl md:text-5xl font-light text-[#F5F7FF] tracking-tight mb-4">
+          The Summer <span class="text-[#6D4CFF] glow-text font-medium">Edit</span>
+        </h2>
+        <p class="text-[#A5A7C8] max-w-2xl text-sm md:text-base font-light leading-relaxed">
+          Elevated layers, relaxed silhouettes, and dark-season essentials designed for after-sunset movement.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-6 auto-rows-fr">
+        
+        <!-- Hoodies (Feature) -->
+        <div id="hoodies" class="group relative rounded-2xl overflow-hidden glass-panel flex flex-col bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] focus-within:border-[rgba(109,76,255,0.4)] focus-within:shadow-[0_0_30px_rgba(91,60,255,0.15)] min-h-[450px] lg:min-h-[500px] md:col-span-4 reveal" tabindex="0">
+          <div class="absolute inset-0 bg-[#070718]/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-500 z-30 flex flex-col justify-end p-8">
+            <div class="translate-y-8 group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-500 ease-out flex flex-col gap-6">
+              <div class="flex justify-between items-end border-b border-[rgba(255,255,255,0.1)] pb-4">
+                <div>
+                  <p class="text-[#A5A7C8] text-xs uppercase tracking-widest mb-1">Hoodies</p>
+                  <h4 class="text-xl text-[#F5F7FF] font-medium">Void Runner Hoodie</h4>
+                </div>
+                <span class="text-lg text-[#8B7CFF] font-light glow-text">$180.00</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-[10px] text-[#A5A7C8] uppercase tracking-widest">Sizes</span>
+                <div class="flex gap-2">
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">S</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">M</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">L</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">XL</button>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-[10px] text-[#A5A7C8] uppercase tracking-widest">Colors</span>
+                <div class="flex gap-3 items-center">
+                  <button class="w-6 h-6 rounded-full border border-[rgba(255,255,255,0.2)] hover:scale-110 focus:scale-110 outline-none transition-all" style="background-color: #050505;" aria-label="Color Black"></button>
+                  <button class="w-6 h-6 rounded-full border border-[rgba(255,255,255,0.2)] hover:scale-110 focus:scale-110 outline-none transition-all" style="background-color: #1E1B4B;" aria-label="Color Navy"></button>
+                  <button class="w-6 h-6 rounded-full border border-[rgba(255,255,255,0.2)] hover:scale-110 focus:scale-110 outline-none transition-all" style="background-color: #312E81;" aria-label="Color Blue"></button>
+                  <button class="w-6 h-6 rounded-full border border-[rgba(255,255,255,0.2)] hover:scale-110 focus:scale-110 outline-none transition-all" style="background-color: #E5E7EB;" aria-label="Color Gray"></button>
+                </div>
+              </div>
+              <button onclick="alert('Item Added to Cart!')" class="mt-2 w-full py-4 rounded-full bg-[#F5F7FF] text-[#050510] text-sm font-medium uppercase tracking-widest shadow-[0_0_30px_rgba(109,76,255,0.35)] hover:shadow-[0_0_40px_rgba(109,76,255,0.6)] hover:bg-white transition-all duration-300">Add to Cart</button>
+            </div>
+          </div>
+          <div class="relative w-full h-full flex flex-col md:flex-row p-8 overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,_var(--tw-gradient-stops))] from-[rgba(109,76,255,0.2)] via-transparent to-transparent z-0"></div>
+            <div class="relative z-10 w-full md:w-1/2 flex flex-col justify-end pb-8">
+              <span class="text-[#8B7CFF] text-[10px] uppercase tracking-[0.2em] mb-4">Premium Basics</span>
+              <h3 class="text-3xl md:text-4xl text-[#F5F7FF] font-light mb-4 leading-tight">Void Runner Hoodie</h3>
+              <p class="text-[#A5A7C8] text-sm font-light leading-relaxed max-w-sm">Oversized thermal hoodie built for warm nights and cold interiors.</p>
+            </div>
+            <div class="absolute right-0 bottom-0 top-0 w-full md:w-2/3 h-full z-0 overflow-hidden opacity-80 mix-blend-screen">
+              <div class="absolute inset-0 bg-gradient-to-r from-[#070718] via-transparent to-transparent z-10"></div>
+              <img src="image/summer1.jpg" alt="Void Runner Hoodie" class="absolute inset-0 w-full h-full object-cover object-right-bottom group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1000&auto=format&fit=crop';"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jackets (Tall) -->
+        <div id="jackets" class="group relative rounded-2xl overflow-hidden glass-panel flex flex-col bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] focus-within:border-[rgba(109,76,255,0.4)] focus-within:shadow-[0_0_30px_rgba(91,60,255,0.15)] min-h-[450px] lg:min-h-[500px] md:col-span-2 reveal reveal-delay-1" tabindex="0">
+          <div class="absolute inset-0 bg-[#070718]/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-500 z-30 flex flex-col justify-end p-8">
+            <div class="translate-y-8 group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-500 ease-out flex flex-col gap-6">
+              <div class="flex justify-between items-end border-b border-[rgba(255,255,255,0.1)] pb-4">
+                <div>
+                  <p class="text-[#A5A7C8] text-xs uppercase tracking-widest mb-1">Jackets</p>
+                  <h4 class="text-xl text-[#F5F7FF] font-medium">Ion Lightweight Shell</h4>
+                </div>
+                <span class="text-lg text-[#8B7CFF] font-light glow-text">$260.00</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-[10px] text-[#A5A7C8] uppercase tracking-widest">Sizes</span>
+                <div class="flex gap-2">
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">S</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">M</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">L</button>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-[10px] text-[#A5A7C8] uppercase tracking-widest">Colors</span>
+                <div class="flex gap-3 items-center">
+                  <button class="w-6 h-6 rounded-full border border-[rgba(255,255,255,0.2)] hover:scale-110 focus:scale-110 outline-none transition-all" style="background-color: #050505;" aria-label="Color Black"></button>
+                  <button class="w-6 h-6 rounded-full border border-[rgba(255,255,255,0.2)] hover:scale-110 focus:scale-110 outline-none transition-all" style="background-color: #1E1B4B;" aria-label="Color Navy"></button>
+                </div>
+              </div>
+              <button onclick="alert('Item Added to Cart!')" class="mt-2 w-full py-4 rounded-full bg-[#F5F7FF] text-[#050510] text-sm font-medium uppercase tracking-widest shadow-[0_0_30px_rgba(109,76,255,0.35)] hover:shadow-[0_0_40px_rgba(109,76,255,0.6)] hover:bg-white transition-all duration-300">Add to Cart</button>
+            </div>
+          </div>
+          <div class="relative w-full h-full flex flex-col p-6 overflow-hidden bg-gradient-to-br from-[#10102C] to-[#030306]">
+            <div class="absolute left-6 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[rgba(255,255,255,0.2)] to-transparent opacity-50 z-10"></div>
+            <div class="relative z-10 flex-grow pt-4 pl-6">
+              <h3 class="text-2xl text-[#F5F7FF] font-light mb-3">Ion Lightweight Shell</h3>
+              <p class="text-[#A5A7C8] text-xs font-light leading-relaxed">Lightweight shell jacket with a clean silhouette and futuristic finish.</p>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 h-[60%] z-0">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#070718] via-transparent to-transparent z-10"></div>
+              <img src="image/jacket.png" alt="Ion Lightweight Shell" class="absolute inset-0 w-full h-full object-cover object-top opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000&auto=format&fit=crop';"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jeans (Split) -->
+        <div id="jeans" class="group relative rounded-2xl overflow-hidden glass-panel flex flex-col bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] focus-within:border-[rgba(109,76,255,0.4)] focus-within:shadow-[0_0_30px_rgba(91,60,255,0.15)] min-h-[400px] md:col-span-3 reveal" tabindex="0">
+          <div class="absolute inset-0 bg-[#070718]/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-500 z-30 flex flex-col justify-end p-8">
+            <div class="translate-y-8 group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-500 ease-out flex flex-col gap-6">
+              <div class="flex justify-between items-end border-b border-[rgba(255,255,255,0.1)] pb-4">
+                <div>
+                  <p class="text-[#A5A7C8] text-xs uppercase tracking-widest mb-1">Jeans</p>
+                  <h4 class="text-xl text-[#F5F7FF] font-medium">Horizon Cargo Denim</h4>
+                </div>
+                <span class="text-lg text-[#8B7CFF] font-light glow-text">$210.00</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-[10px] text-[#A5A7C8] uppercase tracking-widest">Sizes</span>
+                <div class="flex gap-2">
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">28</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">30</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">32</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">34</button>
+                </div>
+              </div>
+              <button onclick="alert('Item Added to Cart!')" class="mt-2 w-full py-4 rounded-full bg-[#F5F7FF] text-[#050510] text-sm font-medium uppercase tracking-widest shadow-[0_0_30px_rgba(109,76,255,0.35)] hover:shadow-[0_0_40px_rgba(109,76,255,0.6)] hover:bg-white transition-all duration-300">Add to Cart</button>
+            </div>
+          </div>
+          <div class="relative w-full h-full flex flex-row overflow-hidden">
+            <div class="w-1/2 relative z-0 h-full">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent to-[#070718] z-10"></div>
+              <img src="image/jeans1.jpg" alt="Horizon Cargo Denim" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?q=80&w=1000&auto=format&fit=crop';"/>
+            </div>
+            <div class="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[#5B3CFF] to-transparent shadow-[0_0_10px_rgba(91,60,255,0.5)] z-20"></div>
+            <div class="w-1/2 relative z-10 flex flex-col justify-center p-8 bg-gradient-to-br from-[#0B0B24] to-[#070718]">
+              <span class="text-[#8B7CFF] text-[10px] uppercase tracking-widest mb-3">Jeans</span>
+              <h3 class="text-2xl text-[#F5F7FF] font-light mb-3">Horizon Cargo Denim</h3>
+              <p class="text-[#A5A7C8] text-xs font-light leading-relaxed">Relaxed denim with a dark rinse and sculpted everyday fit.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sweatpants (Wide) -->
+        <div id="sweatpants" class="group relative rounded-2xl overflow-hidden glass-panel flex flex-col bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] focus-within:border-[rgba(109,76,255,0.4)] focus-within:shadow-[0_0_30px_rgba(91,60,255,0.15)] min-h-[400px] md:col-span-3 reveal reveal-delay-1" tabindex="0">
+          <div class="absolute inset-0 bg-[#070718]/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-500 z-30 flex flex-col justify-end p-8">
+            <div class="translate-y-8 group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-500 ease-out flex flex-col gap-6">
+              <div class="flex justify-between items-end border-b border-[rgba(255,255,255,0.1)] pb-4">
+                <div>
+                  <p class="text-[#A5A7C8] text-xs uppercase tracking-widest mb-1">Sweatpants</p>
+                  <h4 class="text-xl text-[#F5F7FF] font-medium">Quantum Fleece</h4>
+                </div>
+                <span class="text-lg text-[#8B7CFF] font-light glow-text">$150.00</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <span class="text-[10px] text-[#A5A7C8] uppercase tracking-widest">Sizes</span>
+                <div class="flex gap-2">
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">S</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">M</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">L</button>
+                  <button class="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] text-xs text-[#F5F7FF] font-light hover:border-[#6D4CFF] hover:bg-[rgba(91,60,255,0.1)] focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all outline-none">XL</button>
+                </div>
+              </div>
+              <button onclick="alert('Item Added to Cart!')" class="mt-2 w-full py-4 rounded-full bg-[#F5F7FF] text-[#050510] text-sm font-medium uppercase tracking-widest shadow-[0_0_30px_rgba(109,76,255,0.35)] hover:shadow-[0_0_40px_rgba(109,76,255,0.6)] hover:bg-white transition-all duration-300">Add to Cart</button>
+            </div>
+          </div>
+          <div class="relative w-full h-full flex flex-col md:flex-row p-6 overflow-hidden bg-gradient-to-r from-[#030306] to-[#0B0B24] border-t border-[rgba(109,76,255,0.2)]">
+            <div class="absolute left-0 bottom-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#6D4CFF] to-transparent opacity-50 z-10"></div>
+            <div class="w-full md:w-5/12 relative z-0 h-[200px] md:h-full rounded-xl overflow-hidden mb-6 md:mb-0">
+              <img src="image/sweat1.jpg" alt="Quantum Fleece" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://images.unsplash.com/photo-1552902865-b72c031ac5ea?q=80&w=1000&auto=format&fit=crop';"/>
+            </div>
+            <div class="w-full md:w-7/12 relative z-10 flex flex-col justify-center pl-0 md:pl-8">
+              <h3 class="text-2xl text-[#F5F7FF] font-light mb-3">Quantum Fleece</h3>
+              <p class="text-[#A5A7C8] text-xs font-light leading-relaxed max-w-xs">Relaxed fleece sweatpants made for travel, recovery, and late-night motion.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Trendy / New Arrivals -->
+  <section id="trendy" class="py-24 px-6 md:px-12 lg:px-24 bg-[#030306] relative z-20 overflow-hidden border-t border-[rgba(255,255,255,0.05)]">
+    <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[rgba(91,60,255,0.05)] via-transparent to-transparent pointer-events-none rounded-full blur-3xl z-0"></div>
+    
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="mb-12 text-center md:text-left flex flex-col items-center md:items-start reveal">
+        <span class="text-[#8B7CFF] text-[10px] uppercase tracking-[0.2em] mb-3">New Arrivals</span>
+        <h2 class="text-4xl md:text-5xl font-light text-[#F5F7FF] tracking-tight mb-4">
+          Trending <span class="text-[#6D4CFF] glow-text font-medium">Now</span>
+        </h2>
+      </div>
+      
+      <!-- 5-column grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="group relative rounded-xl overflow-hidden glass-panel bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] flex flex-col h-[350px] reveal">
+          <div class="absolute inset-0 z-0">
+            <img src="image/summer2.jpg" alt="Trendy Item" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 ease-out"/>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#030306] via-[rgba(7,7,24,0.3)] to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative z-20 flex-1 flex flex-col justify-end p-5">
+            <h4 class="text-sm text-[#F5F7FF] font-medium mb-1">Oversized Graphic Tee</h4>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-[#8B7CFF] font-light">EGP 950.00</span>
+              <button onclick="toggleCart()" class="text-[#F5F7FF] bg-[rgba(255,255,255,0.05)] hover:bg-[#6D4CFF] p-2 rounded-full transition-all outline-none border border-[rgba(255,255,255,0.1)] hover:border-[#6D4CFF]" aria-label="Add to Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="group relative rounded-xl overflow-hidden glass-panel bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] flex flex-col h-[350px] reveal reveal-delay-1">
+          <div class="absolute inset-0 z-0">
+            <img src="image/summer3.jpg" alt="Trendy Item" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 ease-out"/>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#030306] via-[rgba(7,7,24,0.3)] to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative z-20 flex-1 flex flex-col justify-end p-5">
+            <h4 class="text-sm text-[#F5F7FF] font-medium mb-1">Midnight Utility Vest</h4>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-[#8B7CFF] font-light">EGP 1,200.00</span>
+              <button onclick="toggleCart()" class="text-[#F5F7FF] bg-[rgba(255,255,255,0.05)] hover:bg-[#6D4CFF] p-2 rounded-full transition-all outline-none border border-[rgba(255,255,255,0.1)] hover:border-[#6D4CFF]" aria-label="Add to Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="group relative rounded-xl overflow-hidden glass-panel bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] flex flex-col h-[350px] reveal reveal-delay-2">
+          <div class="absolute inset-0 z-0">
+            <img src="image/summer4.jpg" alt="Trendy Item" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 ease-out"/>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#030306] via-[rgba(7,7,24,0.3)] to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative z-20 flex-1 flex flex-col justify-end p-5">
+            <h4 class="text-sm text-[#F5F7FF] font-medium mb-1">Lunar Zip-Up</h4>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-[#8B7CFF] font-light">EGP 1,450.00</span>
+              <button onclick="toggleCart()" class="text-[#F5F7FF] bg-[rgba(255,255,255,0.05)] hover:bg-[#6D4CFF] p-2 rounded-full transition-all outline-none border border-[rgba(255,255,255,0.1)] hover:border-[#6D4CFF]" aria-label="Add to Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="group relative rounded-xl overflow-hidden glass-panel bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] flex flex-col h-[350px] reveal reveal-delay-3">
+          <div class="absolute inset-0 z-0">
+            <img src="image/summer5.jpg" alt="Trendy Item" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 ease-out"/>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#030306] via-[rgba(7,7,24,0.3)] to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative z-20 flex-1 flex flex-col justify-end p-5">
+            <h4 class="text-sm text-[#F5F7FF] font-medium mb-1">Astral Nylon Shorts</h4>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-[#8B7CFF] font-light">EGP 800.00</span>
+              <button onclick="toggleCart()" class="text-[#F5F7FF] bg-[rgba(255,255,255,0.05)] hover:bg-[#6D4CFF] p-2 rounded-full transition-all outline-none border border-[rgba(255,255,255,0.1)] hover:border-[#6D4CFF]" aria-label="Add to Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="group relative rounded-xl overflow-hidden glass-panel bg-[#070718] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(109,76,255,0.4)] transition-all duration-500 hover:shadow-[0_0_30px_rgba(91,60,255,0.15)] flex flex-col h-[350px] reveal reveal-delay-4">
+          <div class="absolute inset-0 z-0">
+            <img src="image/jeans2.jpg" alt="Trendy Item" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 ease-out"/>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#030306] via-[rgba(7,7,24,0.3)] to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative z-20 flex-1 flex flex-col justify-end p-5">
+            <h4 class="text-sm text-[#F5F7FF] font-medium mb-1">Neon Wash Denim</h4>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-[#8B7CFF] font-light">EGP 1,900.00</span>
+              <button onclick="toggleCart()" class="text-[#F5F7FF] bg-[rgba(255,255,255,0.05)] hover:bg-[#6D4CFF] p-2 rounded-full transition-all outline-none border border-[rgba(255,255,255,0.1)] hover:border-[#6D4CFF]" aria-label="Add to Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section id="story" class="relative py-40 px-6 md:px-12 lg:px-24 bg-[#030306] overflow-hidden flex flex-col items-center justify-center min-h-[80vh]">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-gradient-to-tr from-[#26128A] to-[#10102C] rounded-full blur-[150px] opacity-20 pointer-events-none z-0 animate-rotate-glow"></div>
+
+    <div class="max-w-4xl mx-auto w-full relative z-10">
+      
+      <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent mb-24 reveal-scale-x"></div>
+
+      <div class="space-y-12 md:space-y-16 text-center md:text-left">
+        <h3 class="text-3xl md:text-5xl lg:text-6xl font-light text-[#F5F7FF] leading-tight reveal">
+          Amber exists between <span class="text-[#8B7CFF] glow-text italic">motion</span> and <span class="text-[#A5A7C8]">atmosphere.</span>
+        </h3>
+
+        <p class="text-2xl md:text-4xl lg:text-5xl font-light text-[#A5A7C8] leading-tight reveal reveal-delay-1">
+          We design clothing for the hours when the city cools, the lights turn <span class="text-[#6D4CFF] glow-text">violet</span>, and movement feels effortless.
+        </p>
+
+        <p class="text-xl md:text-3xl lg:text-4xl font-light text-[#F5F7FF] leading-tight reveal reveal-delay-2">
+          Every piece is built to feel <span class="text-[#A5A7C8]">minimal</span>, <span class="text-[#A5A7C8]">elevated</span>, and ready for the <span class="text-[#8B7CFF] glow-text">rhythm of summer</span> after dark.
+        </p>
+      </div>
+
+      <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(91,60,255,0.3)] to-transparent mt-24 reveal-scale-x" style="transition-delay: 0.3s;"></div>
+
+      <div class="mt-16 text-center reveal" style="transition-delay: 0.5s;">
+        <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-[#8B7CFF] glow-text font-medium">
+          Designed for the ones who move after sunset.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#030306] border-t border-[rgba(255,255,255,0.05)] pt-24 pb-12 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[1px] bg-gradient-to-r from-transparent via-[#5B3CFF] to-transparent shadow-[0_0_30px_#6D4CFF] opacity-30"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-[radial-gradient(circle_at_100%_100%,_var(--tw-gradient-stops))] from-[rgba(38,18,138,0.2)] to-transparent pointer-events-none rounded-tl-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-16 mb-20 relative z-10 reveal">
+      
+      <div class="w-full md:w-5/12 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-8">
+            <div class="w-6 h-6 rounded-full border-[1.5px] border-[#F5F7FF] flex items-center justify-center shadow-[0_0_10px_rgba(91,60,255,0.4)] relative">
+              <div class="absolute inset-1 rounded-full bg-[#8B7CFF] opacity-40"></div>
+              <div class="w-1 h-1 rounded-full bg-[#F5F7FF]"></div>
+            </div>
+            <h2 class="text-xl font-medium tracking-[0.2em] text-[#F5F7FF] uppercase glow-text">Amber</h2>
+          </div>
+          <p class="text-sm font-light text-[#A5A7C8] mb-8 leading-relaxed max-w-sm">
+            Defining the future of luxury streetwear through digital aesthetics and premium physical construction.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label for="newsletter" class="text-[10px] uppercase tracking-widest text-[#F5F7FF] font-medium">Join the Access List</label>
+          <div class="flex w-full max-w-sm gap-2">
+            <input type="email" id="newsletter" placeholder="Enter your email" aria-label="Email address for newsletter" class="w-full px-4 py-3 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] placeholder-[#6F7195] focus:outline-none focus:border-[#6D4CFF] focus:ring-1 focus:ring-[#6D4CFF] transition-all" />
+            <button aria-label="Subscribe to newsletter" class="px-6 py-3 bg-[#F5F7FF] text-[#030306] text-sm font-medium rounded-lg hover:bg-white hover:shadow-[0_0_20px_rgba(109,76,255,0.5)] focus:outline-none focus:ring-2 focus:ring-[#6D4CFF] focus:ring-offset-2 focus:ring-offset-[#030306] transition-all">Join</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full md:w-6/12 grid grid-cols-2 sm:grid-cols-3 gap-8">
+        <div class="flex flex-col gap-6">
+          <h3 class="text-[10px] uppercase tracking-widest text-[#F5F7FF] font-medium">Explore</h3>
+          <ul class="flex flex-col gap-4">
+            <li><a href="#catalog" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Summer</a></li>
+            <li><a href="#hoodies" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Hoodies</a></li>
+            <li><a href="#jackets" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Jackets</a></li>
+            <li><a href="#jeans" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Jeans</a></li>
+          </ul>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <h3 class="text-[10px] uppercase tracking-widest text-[#F5F7FF] font-medium">Support</h3>
+          <ul class="flex flex-col gap-4">
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Shipping</a></li>
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Returns</a></li>
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Privacy</a></li>
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <h3 class="text-[10px] uppercase tracking-widest text-[#F5F7FF] font-medium">Connect</h3>
+          <ul class="flex flex-col gap-4">
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">Instagram</a></li>
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">TikTok</a></li>
+            <li><a href="#" class="text-sm text-[#A5A7C8] hover:text-[#8B7CFF] font-light transition-colors focus:outline-none focus:text-[#8B7CFF] no-underline">X</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto flex flex-col-reverse md:flex-row justify-between items-center gap-6 pt-8 border-t border-[rgba(255,255,255,0.05)] relative z-10 reveal">
+      <p class="text-xs text-[#6F7195] font-light">© 2026 Amber. All rights reserved.</p>
+      <div class="flex gap-2">
+        <span class="w-1 h-1 rounded-full bg-[#6F7195]"></span>
+        <span class="w-1 h-1 rounded-full bg-[#6F7195]"></span>
+        <span class="w-1 h-1 rounded-full bg-[#6D4CFF] shadow-[0_0_5px_#8B7CFF]"></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Modal Overlay -->
+  <div id="cartModal" class="fixed inset-0 z-[100] flex justify-end opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer" onclick="toggleCart()"></div>
+    <div id="cartPanel" class="relative w-full max-w-md h-full bg-[#070718] border-l border-[rgba(255,255,255,0.08)] shadow-[-20px_0_50px_rgba(0,0,0,0.5)] translate-x-full transition-transform duration-500 ease-out flex flex-col">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-6 border-b border-[rgba(255,255,255,0.1)]">
+        <h2 class="text-xl font-medium text-[#F5F7FF] uppercase tracking-widest glow-text">Your Cart</h2>
+        <button onclick="toggleCart()" class="p-2 text-[#A5A7C8] hover:text-[#F5F7FF] hover:rotate-90 transition-all outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+      
+      <!-- Cart Items -->
+      <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+        <!-- Mock Item 1 -->
+        <div class="flex gap-4">
+          <div class="w-20 h-24 rounded-lg overflow-hidden border border-[rgba(255,255,255,0.1)] flex-shrink-0">
+            <img src="image/summer1.jpg" class="w-full h-full object-cover" alt="Item">
+          </div>
+          <div class="flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-sm text-[#F5F7FF] font-medium">Void Runner Hoodie</h4>
+              <p class="text-[11px] text-[#A5A7C8] font-light mt-1 uppercase tracking-wider">Size: L | Color: Black</p>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-[#8B7CFF] font-light">EGP 1,800.00</span>
+              <div class="flex items-center gap-3 bg-[rgba(255,255,255,0.05)] rounded-full px-3 py-1 border border-[rgba(255,255,255,0.1)]">
+                <button class="text-[#A5A7C8] hover:text-white transition-colors">-</button>
+                <span class="text-xs text-[#F5F7FF]">1</span>
+                <button class="text-[#A5A7C8] hover:text-white transition-colors">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Checkout Details -->
+      <div class="p-6 border-t border-[rgba(255,255,255,0.1)] bg-[#030306]">
+        
+        <!-- Shipping Form -->
+        <div class="mb-6">
+          <p class="text-[10px] text-[#A5A7C8] mb-3 uppercase tracking-widest">Shipping Address (Egypt Only)</p>
+          <div class="flex flex-col gap-3">
+            <select class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] p-3 focus:outline-none focus:border-[#6D4CFF] appearance-none cursor-pointer">
+              <option value="" disabled selected class="text-black">Select Governorate</option>
+              <option value="cairo" class="text-black">Cairo</option>
+              <option value="giza" class="text-black">Giza</option>
+              <option value="alex" class="text-black">Alexandria</option>
+              <option value="other" class="text-black">Other (Egypt)</option>
+            </select>
+            <input type="text" placeholder="City / Neighborhood" class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] p-3 placeholder-[#6F7195] focus:outline-none focus:border-[#6D4CFF] transition-all">
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="mb-6">
+          <p class="text-[10px] text-[#A5A7C8] mb-3 uppercase tracking-widest">Select Payment Method</p>
+          <div class="grid grid-cols-2 gap-3" id="paymentOptions">
+            <button onclick="selectPayment(this, 'cc-form')" class="py-3 rounded-lg border border-[#6D4CFF] bg-[rgba(91,60,255,0.1)] text-[#F5F7FF] text-xs font-medium uppercase tracking-wider transition-all outline-none">Credit Card</button>
+            <button onclick="selectPayment(this, 'apple-form')" class="py-3 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)] text-[#A5A7C8] text-xs font-medium uppercase tracking-wider hover:border-[rgba(255,255,255,0.3)] hover:text-white transition-all outline-none">Apple Pay</button>
+          </div>
+        </div>
+
+        <!-- Credit Card Form -->
+        <div id="cc-form" class="mb-6 flex flex-col gap-3">
+          <input type="text" placeholder="Card Number" class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] p-3 placeholder-[#6F7195] focus:outline-none focus:border-[#6D4CFF] transition-all">
+          <input type="text" placeholder="Name on Card" class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] p-3 placeholder-[#6F7195] focus:outline-none focus:border-[#6D4CFF] transition-all">
+          <div class="flex gap-3">
+            <input type="text" placeholder="MM/YY" class="w-1/2 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] p-3 placeholder-[#6F7195] focus:outline-none focus:border-[#6D4CFF] transition-all">
+            <input type="text" placeholder="CVC" class="w-1/2 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] rounded-lg text-sm text-[#F5F7FF] p-3 placeholder-[#6F7195] focus:outline-none focus:border-[#6D4CFF] transition-all">
+          </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="flex flex-col gap-2 mb-6 border-t border-[rgba(255,255,255,0.05)] pt-4">
+          <div class="flex justify-between items-center">
+            <span class="text-[#A5A7C8] text-xs">Subtotal</span>
+            <span class="text-[#A5A7C8] text-xs">EGP 1,800.00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[#A5A7C8] text-xs">Shipping Fees (Egypt)</span>
+            <span class="text-[#A5A7C8] text-xs">EGP 50.00</span>
+          </div>
+          <div class="flex justify-between items-center mt-2">
+            <span class="text-[#F5F7FF] text-sm uppercase tracking-widest font-medium">Total</span>
+            <span class="text-[#F5F7FF] text-xl font-light">EGP 1,850.00</span>
+          </div>
+        </div>
+        
+        <button onclick="alert('Payment Processed Successfully!')" class="w-full py-4 rounded-full bg-[#F5F7FF] text-[#050510] text-sm font-medium uppercase tracking-widest shadow-[0_0_30px_rgba(109,76,255,0.35)] hover:shadow-[0_0_40px_rgba(109,76,255,0.6)] hover:bg-white transition-all duration-300">
+          Pay Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Particles Generation
+    const particlesContainer = document.getElementById('particles');
+    for(let i = 0; i < 40; i++) {
+      const p = document.createElement('div');
+      p.className = 'absolute rounded-full bg-white shadow-[0_0_8px_#F5F7FF]';
+      const size = Math.random() * 2 + 0.5;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.opacity = '0';
+      
+      const durationMs = (Math.random() * 10 + 15) * 1000;
+      const delayMs = Math.random() * 5000;
+      const xTravel = Math.random() * 10 - 5;
+      
+      p.animate([
+        { transform: 'translate(0, 0) scale(0)', opacity: 0 },
+        { transform: `translate(${xTravel}vw, -25vh) scale(1)`, opacity: 0.8, offset: 0.5 },
+        { transform: `translate(${xTravel * 2}vw, -50vh) scale(0)`, opacity: 0 }
+      ], {
+        duration: durationMs,
+        delay: delayMs,
+        iterations: Infinity,
+        easing: 'linear'
+      });
+      particlesContainer.appendChild(p);
+    }
+
+    // Scroll Revel Animations via IntersectionObserver
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -100px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal, .reveal-scale-x').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Cart Modal Logic
+    function toggleCart() {
+      const modal = document.getElementById('cartModal');
+      const panel = document.getElementById('cartPanel');
+      
+      if (modal.classList.contains('opacity-0')) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        panel.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
+      } else {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        panel.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Payment Selection Logic
+    function selectPayment(selectedBtn, formId) {
+      const buttons = document.getElementById('paymentOptions').querySelectorAll('button');
+      buttons.forEach(btn => {
+        // Reset all buttons
+        btn.className = "py-3 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)] text-[#A5A7C8] text-xs font-medium uppercase tracking-wider hover:border-[rgba(255,255,255,0.3)] hover:text-white transition-all outline-none";
+      });
+      // Highlight selected button
+      selectedBtn.className = "py-3 rounded-lg border border-[#6D4CFF] bg-[rgba(91,60,255,0.1)] text-[#F5F7FF] text-xs font-medium uppercase tracking-wider transition-all outline-none";
+      
+      // Show or hide credit card form
+      const ccForm = document.getElementById('cc-form');
+      if (formId === 'cc-form') {
+        ccForm.style.display = 'flex';
+      } else {
+        ccForm.style.display = 'none';
+      }
+    }
+
+    // Update Add to Cart buttons in catalog to open modal
+    document.querySelectorAll('button:contains("Add to Cart")').forEach(btn => {
+      if(btn.textContent === 'Add to Cart') {
+        btn.setAttribute('onclick', 'toggleCart()');
+      }
+    });
+    // Fallback since :contains is jQuery, let's just query all buttons and check text
+    document.querySelectorAll('button').forEach(btn => {
+      if(btn.textContent.trim() === 'Add to Cart') {
+        btn.setAttribute('onclick', 'toggleCart()');
+      }
+    });
+
+  </script>
+</body>
+</html>
